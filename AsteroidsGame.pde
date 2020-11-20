@@ -1,64 +1,88 @@
-class Spaceship extends Floater  
-{   
-    //your code here
-    public Spaceship() {
-      corners = 18;
-      xCorners = new int[]{-18, -15, -9, -3, 9, 15, 27, 27, 15, 15, 27, 27, 15, 9, -3, -9, -15, -18};
-      yCorners = new int[]{6, 12, 18, 21, 21, 15, 6, 3, 3, -3, -3, -6, -15, -21, -21, -18, -12, -6};
-      
-      myColor = color(169, 169, 169);
-      myCenterX = 255;
-      myCenterY = 225;
-      
-      myXspeed = 0;
-      myYspeed = 0;
-      myPointDirection = 0;
+//your variable declarations here
+public Spaceship falcon = new Spaceship();
+public Star [] galaxy = new Star[450];
+public int start; //used for timing animations
+public boolean triggerH = false; //stores whether or not hyperspace has been triggered
+
+public void setup() 
+{
+  //your code here
+  background(0);
+  size(1000, 800);
+  for(int i = 0; i < galaxy.length; i++){
+    galaxy[i] = new Star();
+  }
+}
+public void draw() 
+{
+  //your code here
+  background(0);
+  
+  
+  for(int i = 0; i < galaxy.length; i++){
+    galaxy[i].show();
+  }
+  if(triggerH){ // if hyperspace has been triggere (by SPACE)
+  for(int i = 0; i < galaxy.length; i++){ // play the zoop animation
+    galaxy[i].zoop();
+  }
+  if(millis()-start > 1800){
+    triggerH = false; //stop animation after 1.8 seconds, reset all variables
+    for(int i = 0; i < galaxy.length; i++){
+        galaxy[i].setsTail(1.7);
+      }
+    falcon.hyperspace(); //make the jump to hyperspace!
     }
-    public void engageEngines () {
-      //translate the (x,y) center of the ship to the correct position
-      translate((float)myCenterX, (float)myCenterY);
-      //convert degrees to radians for rotate()     
-      float dRadians = (float)(myPointDirection*(Math.PI/180));
-    
-      //rotate so that the polygon will be drawn in the correct direction
-      rotate(dRadians);
-      strokeWeight(3);
-      stroke(255);
-      
-      //main white tailight
-      line(-9, 18, -15, 12);
-      line(-15, 12, -18, 6);
-      line(-18, 6, -18, -6);
-      line(-18, -6, -15, -12);
-      line(-15, -12, -6, -18);
-      
-      //blue light phase effect
-      strokeWeight(5);
-      stroke(131, 244, 252, 200);
-      line(-12, 18, -18, 12);
-      line(-18, 12, -21, 6);
-      line(-21, 6, -21, -6);
-      line(-21, -6, -18, -12);
-      line(-18, -12, -9, -18);
-      stroke(131, 244, 252, 130);
-      line(-15, 18, -21, 12);
-      line(-21, 12, -24, 6);
-      line(-24, 6, -24, -6);
-      line(-24, -6, -21, -12);
-      line(-21, -12, -12, -18);
-      
-      rotate(-1*dRadians);
-      translate(-1*(float)myCenterX, -1*(float)myCenterY);
-    }
-    public void brake() {
-      myXspeed *= 0.7;
-      myYspeed *= 0.7;
-    }
-    public void hyperspace() {
-      myCenterX = (int)(Math.random()*width)-10;
-      myCenterY = (int)(Math.random()*height)-10;
-      
-      myPointDirection = (int)(Math.random()*180);
-    }
-    
+  }
+  
+  falcon.move();
+  falcon.show();
+  
+  if(keyPressed && key == 'w'){
+    falcon.engageEngines();
+  }
+  
+}
+
+public void keyPressed() 
+{
+  /*
+  HOW TO PLAY:
+  
+  W to deploy engines (accelerate)
+  A to rotate clockwise
+  D to rotate counterclockwise
+  S to deploy brakes 
+  SPACE for hyperspace
+  */
+  if(key == 'w'){
+
+  falcon.accelerate(0.1);
+
+  }
+  if(key == 'a'){
+
+  falcon.turn(-10);
+
+  }
+  if(key == 'd'){
+
+  falcon.turn(10);
+
+  }
+  if(key == 's'){
+
+  falcon.brake();
+
+  }
+  if(key == ' '){
+
+  //falcon.hyperspace(); actually, it's triggered after the animation (see draw function)
+  
+  triggerH = true;
+  start = millis();
+  System.out.println("Ya clicked it");
+  System.out.println(start);
+ 
+  }
 }
