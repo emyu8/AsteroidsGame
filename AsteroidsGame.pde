@@ -8,7 +8,7 @@ public void setup()
 {
   //your code here
   background(0);
-  size(1000, 800);
+  size(1200, 600);
   for(int i = 0; i < galaxy.length; i++){
     galaxy[i] = new Star();
   }
