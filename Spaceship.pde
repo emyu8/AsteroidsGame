@@ -49,6 +49,7 @@ class Spaceship extends Floater
       
       rotate(-1*dRadians);
       translate(-1*(float)myCenterX, -1*(float)myCenterY);
+      strokeWeight(1);
     }
     public void brake() {
       myXspeed *= 0.7;
