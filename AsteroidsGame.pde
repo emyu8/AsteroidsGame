@@ -103,10 +103,6 @@ public void keyPressed()
   
   triggerH = true;
   start = millis();
-  System.out.println("Ya clicked it");
-  System.out.println(start);
   
-  
- 
   }
 }
