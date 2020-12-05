@@ -1,6 +1,7 @@
 //your variable declarations here
 public Spaceship falcon = new Spaceship();
 public Star [] galaxy = new Star[450];
+public ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 public int start; //used for timing animations
 public boolean triggerH = false; //stores whether or not hyperspace has been triggered
 
@@ -8,9 +9,13 @@ public void setup()
 {
   //your code here
   background(0);
-  size(1200, 600);
+  size(1000, 800);
   for(int i = 0; i < galaxy.length; i++){
     galaxy[i] = new Star();
+  }
+  
+  for(int i = 0; i < 10; i++){
+    rocks.add(new Asteroid());
   }
 }
 public void draw() 
@@ -22,7 +27,21 @@ public void draw()
   for(int i = 0; i < galaxy.length; i++){
     galaxy[i].show();
   }
-  if(triggerH){ // if hyperspace has been triggere (by SPACE)
+  
+  for(int i = 0; i < rocks.size(); i++){
+    rocks.get(i).show();
+    rocks.get(i).move();
+    
+    if(dist(falcon.getspaceX(), falcon.getspaceY(), rocks.get(i).getastX(), rocks.get(i).getastY()) < 30){ 
+      rocks.remove(i); //destroy all asteroids the spaceship comes near
+      
+    }
+  }
+  
+
+  
+  //hyperspace and spaceship maneuvers
+  if(triggerH){ // if hyperspace has been triggered (by SPACE)
   for(int i = 0; i < galaxy.length; i++){ // play the zoop animation
     galaxy[i].zoop();
   }
@@ -30,6 +49,9 @@ public void draw()
     triggerH = false; //stop animation after 1.8 seconds, reset all variables
     for(int i = 0; i < galaxy.length; i++){
         galaxy[i].setsTail(1.7);
+      }
+    for(int i = 0; i < rocks.size(); i++){ //create new set of asteroids
+    rocks.set(i, new Asteroid());
       }
     falcon.hyperspace(); //make the jump to hyperspace!
     }
@@ -83,6 +105,8 @@ public void keyPressed()
   start = millis();
   System.out.println("Ya clicked it");
   System.out.println(start);
+  
+  
  
   }
 }
