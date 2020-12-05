@@ -38,9 +38,6 @@ class Asteroid extends Floater {
      }
     }
    }
-   for (int i = 0; i < angles.length; i++) {
-     System.out.println(angles[i]);
-   }
    
    
    
