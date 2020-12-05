@@ -1,4 +1,4 @@
-import java.util.Arrays;//to help with sorting coordinates in order for the asteroids
+//import java.util.Arrays;//to help with sorting coordinates in order for the asteroids
 
 class Asteroid extends Floater {
   // asteroid shapes are randomly generated with vertices stemming
@@ -6,9 +6,10 @@ class Asteroid extends Floater {
   private float rotSpeed; //asteroid shapes are randomly generated with vertices stemming out from a "center" point at random angles 
   private int size;
   private double[] angles;
+  private double temp;
   
   public Asteroid() {
-    rotSpeed = 1;
+    rotSpeed = (int)(Math.random()*3)+1;
     myXspeed = myYspeed = 0;
     corners = (int)(Math.random()*4)+5; //anywhere from 5-9 corners
     xCorners = new int[corners];
@@ -24,8 +25,25 @@ class Asteroid extends Floater {
     for(int i = 0; i < angles.length; i++){
       angles[i] = (Math.random()*2*Math.PI);
     }
-    Arrays.sort(angles);
+    //Arrays.sort(angles);
     
+    
+   //sorts the list of angles, code courtesy of https://study.com/academy/lesson/how-to-sort-an-array-in-java.html
+   for (int i = 1; i < angles.length; i++) {
+    for (int j = i; j > 0; j--) {
+     if (angles[j] < angles[j - 1]) {
+      temp = angles[j];
+      angles[j] = angles[j - 1];
+      angles[j - 1] = temp;
+     }
+    }
+   }
+   for (int i = 0; i < angles.length; i++) {
+     System.out.println(angles[i]);
+   }
+   
+   
+   
     for(int i = 0; i < angles.length; i++){
       
       xCorners[i] = (int)(size*Math.cos(angles[i]));
