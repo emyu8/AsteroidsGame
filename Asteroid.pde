@@ -12,7 +12,7 @@ class Asteroid extends Floater {
     rotSpeed = (int)(Math.random()*3)+1;
     myXspeed = (double)(Math.random()*4)-2.0;
     myYspeed = (double)(Math.random()*4)-2.0;
-    corners = (int)(Math.random()*4)+5; //anywhere from 5-9 corners
+    corners = (int)(Math.random()*4)+8; //anywhere from 8-11 corners
     xCorners = new int[corners];
     yCorners = new int[corners];
     
@@ -81,6 +81,8 @@ class Asteroid extends Floater {
     rotate(-1*dRadians);
     translate(-1*(float)myCenterX, -1*(float)myCenterY);
   }
+  
+  
   public int getCorners() {return corners;}
   public float getastX() {return (float)myCenterX;}
   public float getastY() {return (float)myCenterY;}
