@@ -2,6 +2,9 @@
 public Spaceship falcon = new Spaceship();
 public Star [] galaxy = new Star[450];
 public ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
+public ArrayList <Bullet> bullets = new ArrayList <Bullet>();
+
+
 public int start; //used for timing animations
 public boolean triggerH = false; //stores whether or not hyperspace has been triggered
 
@@ -17,6 +20,7 @@ public void setup()
   for(int i = 0; i < 10; i++){
     rocks.add(new Asteroid());
   }
+  
 }
 public void draw() 
 {
@@ -32,14 +36,18 @@ public void draw()
     rocks.get(i).show();
     rocks.get(i).move();
     
-    if(dist(falcon.getspaceX(), falcon.getspaceY(), rocks.get(i).getastX(), rocks.get(i).getastY()) < 30){ 
+    if(dist(falcon.getspaceX(), falcon.getspaceY(), rocks.get(i).getastX(), rocks.get(i).getastY()) < 40){ 
       rocks.remove(i); //destroy all asteroids the spaceship comes near
-      
+    }
+  
+    for(int b = 0; b < bullets.size(); b++){
+      if(dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
+        bullets.remove(b);
+        rocks.remove(i);
+      }
     }
   }
-  
 
-  
   //hyperspace and spaceship maneuvers
   if(triggerH){ // if hyperspace has been triggered (by SPACE)
   for(int i = 0; i < galaxy.length; i++){ // play the zoop animation
@@ -63,6 +71,20 @@ public void draw()
   if(keyPressed && key == 'w'){
     falcon.engageEngines();
   }
+  
+  
+
+    /*if(keyPressed && key == 'q'){ //key == CODED && keyCode == SHIFT){
+      System.out.println("ya pressed shift!");
+        bullets.add(new Bullet(falcon));
+    }*/
+    
+    for(int b = 0; b < bullets.size(); b++){
+      bullets.get(b).move();
+      bullets.get(b).show();
+    }
+    
+   
   
 }
 
@@ -103,6 +125,9 @@ public void keyPressed()
   
   triggerH = true;
   start = millis();
-  
+  }
+  if(key == CODED && keyCode == SHIFT){
+    System.out.println("ya pressed shift!");
+    bullets.add(new Bullet(falcon));
   }
 }
