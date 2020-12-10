@@ -127,7 +127,7 @@ public void keyPressed()
   start = millis();
   }
   if(key == CODED && keyCode == SHIFT){
-    System.out.println("ya pressed shift!");
+   
     bullets.add(new Bullet(falcon));
   }
 }
