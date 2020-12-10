@@ -41,7 +41,7 @@ public void draw()
     }
   
     for(int b = 0; b < bullets.size(); b++){
-      if(dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
+      if(rocks.size() > 0 && dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
         bullets.remove(b);
         rocks.remove(i);
       }
@@ -127,7 +127,7 @@ public void keyPressed()
   start = millis();
   }
   if(key == CODED && keyCode == SHIFT){
-    //System.out.println("ya pressed shift!");
+    System.out.println("ya pressed shift!");
     bullets.add(new Bullet(falcon));
   }
 }
