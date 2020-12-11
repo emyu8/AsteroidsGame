@@ -3,7 +3,8 @@ public Spaceship falcon = new Spaceship();
 public Star [] galaxy = new Star[450];
 public ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 public ArrayList <Bullet> bullets = new ArrayList <Bullet>();
-
+public int score = 0;
+public int lives = 7;
 
 public int start; //used for timing animations
 public boolean triggerH = false; //stores whether or not hyperspace has been triggered
@@ -28,6 +29,7 @@ public void draw()
   background(0);
   
   
+
   for(int i = 0; i < galaxy.length; i++){
     galaxy[i].show();
   }
@@ -36,14 +38,16 @@ public void draw()
     rocks.get(i).show();
     rocks.get(i).move();
     
-    if(dist(falcon.getspaceX(), falcon.getspaceY(), rocks.get(i).getastX(), rocks.get(i).getastY()) < 40){ 
+    if(rocks.size() > 0 && dist(falcon.getspaceX(), falcon.getspaceY(), rocks.get(i).getastX(), rocks.get(i).getastY()) < 40){ 
       rocks.remove(i); //destroy all asteroids the spaceship comes near
+      lives--;
     }
   
     for(int b = 0; b < bullets.size(); b++){
-      if(rocks.size() > 0 && dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
+      if(rocks.size() > 0 && bullets.size() > 0 && dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
         bullets.remove(b);
         rocks.remove(i);
+        score+=100;
       }
     }
   }
@@ -84,7 +88,20 @@ public void draw()
       bullets.get(b).show();
     }
     
-   
+  fill(255); //display score
+  textSize(25);
+  text("Score: "+score, 20, 28);
+  
+  //display healthbar
+  textSize(18);
+  text("SHIELD STRENGTH", width/2, 20);
+  stroke(255);
+  strokeWeight(1);
+  fill(255, 0, 0);
+  rect(200, 30, 700, 10);
+  fill(50, 205, 50);
+  rect(200.0, 30.0, 700.0*(lives/7.0), 10.0);
+  
   
 }
 
@@ -127,7 +144,7 @@ public void keyPressed()
   start = millis();
   }
   if(key == CODED && keyCode == SHIFT){
-   
+    
     bullets.add(new Bullet(falcon));
   }
 }
