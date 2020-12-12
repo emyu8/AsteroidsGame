@@ -29,7 +29,7 @@ public void draw()
   background(0);
   
   
-if(lives > 0){
+if(lives > 0 && rocks.size() > 0){
   for(int i = 0; i < galaxy.length; i++){
     galaxy[i].show();
   }
@@ -45,7 +45,7 @@ if(lives > 0){
   }
   for(int i = 0; i < rocks.size(); i++){
     for(int b = 0; b < bullets.size(); b++){
-      if(rocks.size() > 0 && bullets.size() > 0 && dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
+      if(b < bullets.size() && i < rocks.size() && rocks.size() > 0 && bullets.size() > 0 && dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
         bullets.remove(b);
         rocks.remove(i);
         score+=100;
@@ -98,10 +98,10 @@ if(lives > 0){
   rect(200.0, 30.0, 700.0*(lives/4.0), 10.0);
   }
     }
- else{
-    fill(255);
+ else if (rocks.size() == 0 && lives > 0){
+   fill(255);
     textSize(100);
-    text("GAME OVER", 200, 300);
+    text("YOU WIN", 200, 300);
     textSize(30);
     text("Score: " + score, 220, 400);
     text("Press the Q key to restart", 220, 500);
@@ -112,10 +112,27 @@ if(lives > 0){
   for(int i = 0; i < 10; i++){
     rocks.add(new Asteroid());
   }
-  falcon.setxSpeed(0);
-  falcon.setySpeed(0);
     }
-  }
+ }
+   else{
+    fill(255);
+    textSize(100);
+    text("GAME OVER", 200, 300);
+    textSize(30);
+    text("Score: " + score, 220, 400);
+    text("Press the Q key to restart", 220, 500);
+    if(keyPressed && key == 'q'){
+      lives = 4;
+      score = 0;
+      
+      for(int i = 0; i < 10; i++){
+        rocks.add(new Asteroid());
+      }
+      falcon.setxSpeed(0);
+      falcon.setySpeed(0);
+    }
+   
+   }
 }
 
 public void keyPressed() 
