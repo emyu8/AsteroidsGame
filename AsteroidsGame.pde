@@ -4,7 +4,7 @@ public Star [] galaxy = new Star[450];
 public ArrayList <Asteroid> rocks = new ArrayList <Asteroid>();
 public ArrayList <Bullet> bullets = new ArrayList <Bullet>();
 public int score = 0;
-public int lives = 7;
+public int lives = 4;
 
 public int start; //used for timing animations
 public boolean triggerH = false; //stores whether or not hyperspace has been triggered
@@ -29,7 +29,7 @@ public void draw()
   background(0);
   
   
-
+if(lives > 0){
   for(int i = 0; i < galaxy.length; i++){
     galaxy[i].show();
   }
@@ -42,7 +42,8 @@ public void draw()
       rocks.remove(i); //destroy all asteroids the spaceship comes near
       lives--;
     }
-  
+  }
+  for(int i = 0; i < rocks.size(); i++){
     for(int b = 0; b < bullets.size(); b++){
       if(rocks.size() > 0 && bullets.size() > 0 && dist(rocks.get(i).getastX(), rocks.get(i).getastY(), bullets.get(b).getX(),  bullets.get(b).getY()) < 40){ //CHANGE SO THAT IT CHECKS FOR EVERY ASTEROID
         bullets.remove(b);
@@ -75,13 +76,6 @@ public void draw()
   if(keyPressed && key == 'w'){
     falcon.engageEngines();
   }
-  
-  
-
-    /*if(keyPressed && key == 'q'){ //key == CODED && keyCode == SHIFT){
-      System.out.println("ya pressed shift!");
-        bullets.add(new Bullet(falcon));
-    }*/
     
     for(int b = 0; b < bullets.size(); b++){
       bullets.get(b).move();
@@ -101,9 +95,27 @@ public void draw()
   rect(200, 30, 700, 10);
   fill(50, 205, 50);
   if(lives > 0){
-  rect(200.0, 30.0, 700.0*(lives/7.0), 10.0);
+  rect(200.0, 30.0, 700.0*(lives/4.0), 10.0);
   }
-  
+    }
+ else{
+    fill(255);
+    textSize(100);
+    text("GAME OVER", 200, 300);
+    textSize(30);
+    text("Score: " + score, 220, 400);
+    text("Press the Q key to restart", 220, 500);
+    if(keyPressed && key == 'q'){
+      lives = 4;
+      score = 0;
+      
+  for(int i = 0; i < 10; i++){
+    rocks.add(new Asteroid());
+  }
+  falcon.setxSpeed(0);
+  falcon.setySpeed(0);
+    }
+  }
 }
 
 public void keyPressed() 
